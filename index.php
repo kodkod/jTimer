@@ -3,10 +3,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>jTimer - Javascript LocalStorage Work Timer</title>
+    <title>jTimer - The Easiest Way to Track Your Time on Projects and Clients</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="jTimer is the easiest way to track your timer on projects and clients. It uses Javascript LocalStorage and can work Offline. All you need is a browser">
 
     <!-- Le styles -->
     <link href="/css/bootstrap.css" rel="stylesheet">
@@ -134,7 +133,7 @@
 	<hr>
 
       <footer>
-        <p>&copy; kodkod.org 2012</p>
+        <p>&copy; <a href='http://kodkod.org'>kodkod.org</a> 2012</p>
       </footer>
 
     </div> <!-- /container -->
