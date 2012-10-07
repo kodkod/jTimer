@@ -12,16 +12,12 @@ jQuery(document).ready(function() {
 
 		//$('#start_tracking_form').
 		//delete localStorage['jsTimerManager'];
-        console.log('LocalStorage available');
 		//localStorage.setObject('jsTimerManager',obj);
         //console.log(localStorage);
         jsTimerManager = localStorage.getObject('jsTimerManager');
         if (jsTimerManager == null) {
         	jsTimerManager = new Object(); //initiate me :)
-            console.log('first use');
         } else {
-            console.log('got data');
-            console.log(jsTimerManager);
             if (jsTimerManager.clients != null) {
             	clients = jsTimerManager.clients;
             }
@@ -66,12 +62,12 @@ function add_task_to_list(task_id, task_notes, task_stamp, task_end_stamp, clien
 		task_end_stamp = d.getTime();
 	} else {
 		var end_stamp = new Date(task_end_stamp);
-		end_stamp = end_stamp.getDate().padZero()+'/'+end_stamp.getMonth().padZero()+'/'+end_stamp.getFullYear()+' '+end_stamp.getHours().padZero()+':'+end_stamp.getMinutes().padZero();
+		end_stamp = end_stamp.getDate().padZero()+'/'+(end_stamp.getMonth()+1).padZero()+'/'+end_stamp.getFullYear()+' '+end_stamp.getHours().padZero()+':'+end_stamp.getMinutes().padZero();
 	}
 
 	var task_duration = task_end_stamp-task_stamp;
 
-	start_stamp = start_stamp.getDate().padZero()+'/'+start_stamp.getMonth().padZero()+'/'+start_stamp.getFullYear()+' '+start_stamp.getHours().padZero()+':'+start_stamp.getMinutes().padZero();
+	start_stamp = start_stamp.getDate().padZero()+'/'+(start_stamp.getMonth()+1).padZero()+'/'+start_stamp.getFullYear()+' '+start_stamp.getHours().padZero()+':'+start_stamp.getMinutes().padZero();
 
 
 	task_id = parseInt(task_id)+1;
@@ -79,6 +75,12 @@ function add_task_to_list(task_id, task_notes, task_stamp, task_end_stamp, clien
 
 	$('#tasks tbody').append('<tr><td>'+task_id+'</td><td>'+task_notes+'</td><td>'+start_stamp+'</td><td>'+end_stamp+'</td><td>'+msToTime(task_duration)+'</td><td>'+client_name+'</td></tr>');
 }
+//Date.prototype.getMonth = function () {
+	
+    //var month = this.getMonth() + 1;
+    //console.log(month);
+    //return month;
+//};
 function process_stop_tracking() {
 	$('#stop_tracking_dialog').colorbox.close();
 	var client_name = $('#stop_tracking_dialog #client_name').val();
@@ -108,7 +110,6 @@ function process_stop_tracking() {
 
 		//need to update the localStorage
 		jsTimerManager.tasks = tasks;
-		console.log(jsTimerManager);
 		localStorage.setObject('jsTimerManager',jsTimerManager);
 
 	} else {
@@ -166,7 +167,7 @@ function add_client_to_list(client_id, client_name, client_description) {
 }
 function add_start_task_to_list(task_id, task_notes, task_stamp, client_name) {
 	var start_stamp = new Date(task_stamp);
-	start_stamp = start_stamp.getDate().padZero()+'/'+start_stamp.getMonth().padZero()+'/'+start_stamp.getFullYear()+' '+start_stamp.getHours().padZero()+':'+start_stamp.getMinutes().padZero(); 
+	start_stamp = start_stamp.getDate().padZero()+'/'+(start_stamp.getMonth()+1).padZero()+'/'+start_stamp.getFullYear()+' '+start_stamp.getHours().padZero()+':'+start_stamp.getMinutes().padZero(); 
 	$('#tasks tbody').append('<tr><td>'+task_id+'</td><td>'+task_notes+'</td><td>'+start_stamp+'</td><td></td><td></td><td>'+client_name+'</td></tr>');
 }
 function update_task_list(task_id, task_notes, task_stamp, task_end_stamp, client_name) {
@@ -176,7 +177,7 @@ function update_task_list(task_id, task_notes, task_stamp, task_end_stamp, clien
 
 		var task_duration = task_end_stamp-task_stamp;
 
-		end_stamp = end_stamp.getDate().padZero()+'/'+end_stamp.getMonth().padZero()+'/'+end_stamp.getFullYear()+' '+end_stamp.getHours().padZero()+':'+end_stamp.getMinutes().padZero();
+		end_stamp = end_stamp.getDate().padZero()+'/'+(end_stamp.getMonth()+1).padZero()+'/'+end_stamp.getFullYear()+' '+end_stamp.getHours().padZero()+':'+end_stamp.getMinutes().padZero();
 
 		tasks[task_id].task_duration = task_duration; //SILLY HACK!!!
 		
@@ -184,7 +185,7 @@ function update_task_list(task_id, task_notes, task_stamp, task_end_stamp, clien
 		end_stamp = '';
 		task_duration = '';
 	}
-	start_stamp = start_stamp.getDate().padZero()+'/'+start_stamp.getMonth().padZero()+'/'+start_stamp.getFullYear()+' '+start_stamp.getHours().padZero()+':'+start_stamp.getMinutes().padZero();
+	start_stamp = start_stamp.getDate().padZero()+'/'+(start_stamp.getMonth()+1).padZero()+'/'+start_stamp.getFullYear()+' '+start_stamp.getHours().padZero()+':'+start_stamp.getMinutes().padZero();
 
 	task_id = parseInt(task_id)+1;
 
