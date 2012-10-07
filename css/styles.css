@@ -1,6 +1,6 @@
 @media (max-width: 979px) {
-	#forkme {
-		top: 51px;
+	#forkme img {
+		top: 51px !important;
 	}
 }
 @media (max-width: 767px) {
