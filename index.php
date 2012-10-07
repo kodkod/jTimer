@@ -19,6 +19,7 @@
         padding-bottom: 40px;
       }
     </style>
+    <link href="/css/styles.css" rel="stylesheet">
     <link href="/css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -43,9 +44,9 @@
           <a class="brand" href="/">jTimer</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/about">About</a></li>
+              <li><a href="/contact">Contact</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -66,18 +67,18 @@
 		<section id='tasks'>
 			<h1>Tasks</h1>
 			<div class='actions'>
-				<a href='#start_tracking_dialog' id='start_track' class='btn btn-primary inline cboxElement'><i class="icon-time icon-white"></i> Start Tracking</a>
-				<a href='#stop_tracking_dialog' id='stop_track' class='btn btn-danger inline cboxElement'><i class="icon-time icon-white"></i> Stop Tracking</a>
-				<a href='#start_tracking_dialog' id='start_track' class='btn btn-info inline cboxElement'><i class="icon-list icon-white"></i> Add Note</a>
+				<a href='#start_tracking_dialog' id='start_track' class='btn btn-primary inline cboxElement'><i class="icon-time icon-white"></i> Start</a>
+				<a href='#stop_tracking_dialog' id='stop_track' class='btn btn-danger inline cboxElement'><i class="icon-time icon-white"></i> Stop</a>
+				<a href='#add_note_dialog' id='add_note' class='btn btn-info inline cboxElement'><i class="icon-list icon-white"></i> Note</a>
 			</div>
 			<table class="table">
               <thead>
                 <tr>
                   <th>#</th>
                   <th>Task Notes</th>
-                  <th>Task Start Stamp</th>
-                  <th>Task End Stamp</th>
-                  <th>Task Duration</th>
+                  <th>Task Start</th>
+                  <th>Task End</th>
+                  <th>Duration</th>
                   <th>Client</th>
                 </tr>
               </thead>
@@ -121,9 +122,9 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Client Name</th>
-                  <th>Client Description</th>
-                  <th>Client Hours</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Hours</th>
                 </tr>
               </thead>
               <tbody>
@@ -177,6 +178,19 @@
 			    <textarea placeholder="Client Name" id='client_desc' name='client_desc'></textarea>
 			    <br />
 			    <button type="submit" class="btn">Add Client</button>
+		    </form>
+		</div>
+	</div>
+	<div style='display:none'>
+		<div id='add_note_dialog' style='padding:20px; background:#fff; text-align: center;'>
+		    <form onsubmit="return process_note()">
+			    <legend>Add Note</legend>
+			    <label for='client_name'>Client Name</label>
+			    <input type="text" placeholder="Client Name" id='client_name' name='client_name' required="required">
+			    <label for='client_desc'>Note</label>
+			    <textarea placeholder="Note" id='note' name='note' required="required"></textarea>
+			    <br />
+			    <button type="submit" class="btn">Add Note</button>
 		    </form>
 		</div>
 	</div>
