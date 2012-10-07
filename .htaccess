@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteRule    ^about.* about.php    [L]
+    RewriteRule    ^contact.* contact.php    [L]
+</IfModule>
