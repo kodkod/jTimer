@@ -3,9 +3,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>jTimer - Javascript LocalStorage Work Timer</title>
+    <title>jTimer - Contact Me</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
+    <meta name="description" content="jTimer is the easiest way to track your timer on projects and clients. It uses Javascript LocalStorage and can work Offline. All you need is a browser">
     <meta name="author" content="">
 
     <!-- Le styles -->
