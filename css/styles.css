@@ -2,6 +2,9 @@
 	#forkme img {
 		top: 51px !important;
 	}
+	#forkme {
+		display: none;
+	}
 }
 @media (max-width: 767px) {
 	.table thead tr th:first-child {
