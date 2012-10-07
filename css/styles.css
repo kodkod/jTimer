@@ -11,4 +11,7 @@
 	#tasks .table tbody tr td:nth-child(2) {
 		display: none;
 	}
+	#forkme {
+		display: none;
+	}
 }
