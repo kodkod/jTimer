@@ -69,6 +69,11 @@
       	<p>jTimer is an easy way to track time on projects and tasks.</p>
       	<p>There are many tracking systems out there but I didn't find any simple web one.</p>
       	<p>I've been using <a href='http://timer.vertabase.com/'>Vertabase Timer</a> for a while now but the problem i found with it is that i couldn't track a couple of projects at the same time. This is just a simple one and if it will attract some attention i will add features people will ask.</p>
+      	<p>jTimer was made using the following tools:<br />
+      	<a href='http://twitter.github.com/bootstrap/'>Twitter Bootstrap</a><br />
+      	<a href='https://developer.mozilla.org/en-US/docs/JavaScript'>Javascript</a><br />
+      	<a href='http://jquery.com/'>jQuery</a><br />
+      	<a href='https://developer.mozilla.org/en-US/docs/DOM/Storage'>Local Storage</a><br />
       </sction>
 	<hr>
 
