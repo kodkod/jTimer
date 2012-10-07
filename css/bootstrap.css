@@ -2148,7 +2148,7 @@ table [class*=span],
   margin-top: 1px;
   *margin-right: .3em;
   line-height: 14px;
-  vertical-align: text-top;
+  vertical-align: middle;
   background-image: url("../img/glyphicons-halflings.png");
   background-position: 14px 14px;
   background-repeat: no-repeat;
@@ -2261,7 +2261,7 @@ table [class*=span],
 }
 
 .icon-time {
-  background-position: -48px -24px;
+  background-position: -48px -25px;
 }
 
 .icon-road {
@@ -2393,7 +2393,7 @@ table [class*=span],
 }
 
 .icon-list {
-  background-position: -360px -48px;
+  background-position: -360px -49px;
 }
 
 .icon-indent-left {
