@@ -94,19 +94,23 @@ function process_stop_tracking() {
 }
 
 function stop_tracking(client_name, task_notes) {
-	var task_id = get_task_id_by_client_name(client_name);
+	var my_task = get_task_by_client_name(client_name);
+	task_id = my_task.task_id;
 	var d = new Date();
 	var task_end_stamp = d.getTime();
-	console.log('found: '+task_id);
-	if (task_id) {
-		if (task_notes != '') {
-        	//need to turn task notes into ol li list if there are any notes need to add this one
-        	//need to check if the task have notes
-        	//TODO: FIX task_notes to add notes and not overwrite it!
-			var task_notes = '<ol><li>'+task_notes+'</li></ol>';
-    	} else {
-	    	var task_notes = '<ol><li>Work for '+client_name+'</li></ol>';
-    	}
+	if (task_id !== false) {
+		if (my_task.task_notes != null) {
+			var pre_notes = $(my_task.task_notes); 
+			if (task_notes != '') {
+	        	var now_notes = '<li>'+task_notes+'</li>';
+	    	}
+			pre_notes_list = $(pre_notes).find('li');
+			pre_notes_list.parent().append(now_notes);
+			var task_notes = '<ol>'+pre_notes_list.parent().html()+'</ol>'; 
+			
+		} else {
+			var task_notes = '<ol><li>General work</li></ol>';		    
+		}
     	tasks[task_id].task_end_stamp = task_end_stamp;
 		tasks[task_id].status = 0;
 		tasks[task_id].task_notes = task_notes;
@@ -125,14 +129,46 @@ function stop_tracking(client_name, task_notes) {
 }
 
 function process_note() {
+	var client_name = $('#add_note_dialog #client_name').val();
+	var task_notes = $('#add_note_dialog #note').val();
 	$('#add_note_dialog').colorbox.close();
+	
+	add_note_to_task(client_name, task_notes);
+	
+	refresh_ui();
+
 	return false;
 }
 
-function get_task_id_by_client_name(client_name) {
+function refresh_ui() {
+	$('#tasks .table tbody').html('');
+	pre_process_tasks(jsTimerManager.tasks);
+	
+	$('#clients .table tbody').html('');
+	pre_process_clients(jsTimerManager.clients);
+}
+
+function add_note_to_task(client_name, task_notes) {
+	pre_notes = check_active_task_and_get_notes(client_name);
+	pre_notes_list = $(pre_notes[0]).find('li');
+	if (pre_notes_list.length <= 0) {
+		var notes_list = '<ol><li>'+task_notes+'</li></ol>';
+	} else {
+		var task = '<li>'+task_notes+'</li>';
+		pre_notes_list.parent().append(task);
+		var notes_list = '<ol>'+pre_notes_list.parent().html()+'</ol>'; 
+	}
+	task_id = pre_notes[1];
+	tasks[x].task_notes = notes_list 
+	
+	jsTimerManager.tasks = tasks;
+	localStorage.setObject('jsTimerManager',jsTimerManager);
+}
+
+function get_task_by_client_name(client_name) {
     for (x in tasks) {
 		if (tasks[x].status == 1 && tasks[x].client_name == client_name) {
-    		return x;
+    		return tasks[x];
 		}
 	}
 	return false;
@@ -147,8 +183,8 @@ function check_client_exists(client_name) {
 }
 function check_active_task_and_get_notes(client_name) {
 	for (x in jsTimerManager.tasks) {
-		if (jsTimerManager.tasks[x].client_name == client_name && jsTimerManager.tasks[x].task_end_stamp == null) {
-			return jsTimerManager.tasks[x].task_notes;
+		if (jsTimerManager.tasks[x].client_name == client_name && jsTimerManager.tasks[x].status == 1) {
+			return new Array(jsTimerManager.tasks[x].task_notes, x);
 		}
 	}
 	return false;
@@ -170,11 +206,9 @@ function process_tracking() {
 	}
 	//close all other tasks for this client if any.
 	active_task_notes = check_active_task_and_get_notes(client_name);
-	if (active_task_notes === false) {
-	} else {
-		stop_tracking(client_name, active_task_notes);
+	if (active_task_notes !== false) {
+		stop_tracking(client_name, active_task_notes[0]);
 	}
-	
 	var d = new Date();
 	var task_id = tasks.length;
 	var task_stamp = d.getTime();
