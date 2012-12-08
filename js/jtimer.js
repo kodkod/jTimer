@@ -99,7 +99,7 @@ function stop_tracking(client_name, task_notes) {
 	var d = new Date();
 	var task_end_stamp = d.getTime();
 	if (task_id !== false) {
-		if (my_task.task_notes != null) {
+		if (my_task.task_notes != '') {
 			var pre_notes = $(my_task.task_notes); 
 			if (task_notes != '') {
 	        	var now_notes = '<li>'+task_notes+'</li>';
