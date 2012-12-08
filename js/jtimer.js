@@ -73,7 +73,7 @@ function add_task_to_list(task_id, task_notes, task_stamp, task_end_stamp, clien
 	task_id = parseInt(task_id)+1;
 
 
-	$('#tasks tbody').append('<tr><td>'+task_id+'</td><td>'+task_notes+'</td><td>'+start_stamp+'</td><td>'+end_stamp+'</td><td>'+msToTime(task_duration)+'</td><td>'+client_name+'</td></tr>');
+	$('#tasks tbody').append('<tr><td>'+client_name+'</td><td>'+task_id+'</td><td>'+task_notes+'</td><td>'+start_stamp+'</td><td>'+end_stamp+'</td><td>'+msToTime(task_duration)+'</td></tr>');
 }
 //Date.prototype.getMonth = function () {
 	
@@ -88,10 +88,16 @@ function process_stop_tracking() {
 	//stop tracking :)
 	var d = new Date();
 	var task_id = tasks.length;
-	var task_end_stamp = d.getTime();
 	//need to find which task to stop.. we are only stating user so need to find task_id by client_name
-	var task_id = get_task_id_by_client_name(client_name);
+	stop_tracking(client_name, task_notes);
+	return false;
+}
 
+function stop_tracking(client_name, task_notes) {
+	var task_id = get_task_id_by_client_name(client_name);
+	var d = new Date();
+	var task_end_stamp = d.getTime();
+	console.log('found: '+task_id);
 	if (task_id) {
 		if (task_notes != '') {
         	//need to turn task notes into ol li list if there are any notes need to add this one
@@ -116,10 +122,13 @@ function process_stop_tracking() {
 		//couldn't find task id from client
 		alert('cannot find client');
 	}
+}
 
-
+function process_note() {
+	$('#add_note_dialog').colorbox.close();
 	return false;
 }
+
 function get_task_id_by_client_name(client_name) {
     for (x in tasks) {
 		if (tasks[x].status == 1 && tasks[x].client_name == client_name) {
@@ -128,10 +137,44 @@ function get_task_id_by_client_name(client_name) {
 	}
 	return false;
 }
+function check_client_exists(client_name) {
+	for (i in jsTimerManager.clients) {
+		if (jsTimerManager.clients[i].client_name == client_name) {
+			return true;
+		} 
+	}
+	return false;
+}
+function check_active_task_and_get_notes(client_name) {
+	for (x in jsTimerManager.tasks) {
+		if (jsTimerManager.tasks[x].client_name == client_name && jsTimerManager.tasks[x].task_end_stamp == null) {
+			return jsTimerManager.tasks[x].task_notes;
+		}
+	}
+	return false;
+}
 function process_tracking() {
 	$('#start_tracking_dialog').colorbox.close();
 	var client_name = $('#start_tracking_dialog #client_name').val();
 	//need to start tracking time to client_name
+	if (!check_client_exists(client_name)) {
+		//client doesnt exists.. add it.
+		client_desc = ''
+		clients.push({client_name:client_name, client_desc:''});
+		//need to update the localStorage
+		jsTimerManager.clients = clients;
+		localStorage.setObject('jsTimerManager',jsTimerManager);
+		
+		var client_id = clients.length; 
+		add_client_to_list(client_id, client_name, client_desc);
+	}
+	//close all other tasks for this client if any.
+	active_task_notes = check_active_task_and_get_notes(client_name);
+	if (active_task_notes === false) {
+	} else {
+		stop_tracking(client_name, active_task_notes);
+	}
+	
 	var d = new Date();
 	var task_id = tasks.length;
 	var task_stamp = d.getTime();
@@ -168,7 +211,7 @@ function add_client_to_list(client_id, client_name, client_description) {
 function add_start_task_to_list(task_id, task_notes, task_stamp, client_name) {
 	var start_stamp = new Date(task_stamp);
 	start_stamp = start_stamp.getDate().padZero()+'/'+(start_stamp.getMonth()+1).padZero()+'/'+start_stamp.getFullYear()+' '+start_stamp.getHours().padZero()+':'+start_stamp.getMinutes().padZero(); 
-	$('#tasks tbody').append('<tr><td>'+task_id+'</td><td>'+task_notes+'</td><td>'+start_stamp+'</td><td></td><td></td><td>'+client_name+'</td></tr>');
+	$('#tasks tbody').append('<tr><td>'+client_name+'</td><td>'+task_id+'</td><td>'+task_notes+'</td><td>'+start_stamp+'</td><td></td><td></td></tr>');
 }
 function update_task_list(task_id, task_notes, task_stamp, task_end_stamp, client_name) {
 	var start_stamp = new Date(task_stamp);
@@ -191,14 +234,14 @@ function update_task_list(task_id, task_notes, task_stamp, task_end_stamp, clien
 
 	//find row and remove it
 	$("#tasks table tr").each(function() {
-		var find_id = $(this).find('td:first').text();
+		var find_id = $(this).find('td:nth-child(2)').text();
 		if (find_id != '' && find_id == task_id) {
 			selected_row = $(this);
 		}
 	});
 	$(selected_row).find('td').remove();
 	 
-	$(selected_row).append('<td>'+task_id+'</td><td>'+task_notes+'</td><td>'+start_stamp+'</td><td>'+end_stamp+'</td><td>'+msToTime(task_duration)+'</td><td>'+client_name+'</td>');
+	$(selected_row).append('<td>'+client_name+'</td><td>'+task_id+'</td><td>'+task_notes+'</td><td>'+start_stamp+'</td><td>'+end_stamp+'</td><td>'+msToTime(task_duration)+'</td>');
 }
 function total_client_time(client_name) {
 	var total_time = 0;
@@ -233,4 +276,68 @@ function msToTime(ms){
     var seconds = Math.ceil(divisor_for_seconds);
     //return hours + ":" + minutes + ":" + seconds  + ":" + msleft;
     return hours.padZero() + ":" + minutes.padZero() + ":" + seconds.padZero(); 
+}
+/* Mozilla Persona */
+var signinLink = document.getElementById('signin');
+if (signinLink) {
+  signinLink.onclick = function() { navigator.id.request(); };
+};
+
+//setInterval(function() {
+	//console.log(navigator.id.get());
+//},1000);
+
+function setSignout() {
+	var signoutLink = document.getElementById('signout');
+	if (signoutLink) {
+		console.log('setting signout');
+	  signoutLink.onclick = function() { navigator.id.logout(); };
+	};
+}
+
+jQuery(document).ready(function() {
+	navigator.id.watch({
+	  onlogin: function(assertion) {
+	    // A user has logged in! Here you need to:
+	    // 1. Send the assertion to your backend for verification and to create a session.
+	    // 2. Update your UI.
+		  $('#signin').hide();
+		  $('#account_loading').show();
+		  $.ajax({
+			  url: 			'browserid.php',
+			  type:			'POST',
+			  dataType:		'json',
+			  data: 		{assertion: assertion},
+			  success: 	function(response) {
+            	  				if(window.console) console.log('Done...')
+            	  				updateUI();
+            	  				//console.log(response);
+            	  				UpdateOrSaveUser(response.email, assertion);
+            	  				//alert('welcome back '+response.email);
+            	  			}
+		  });
+	  },
+	  onlogout: function() {
+	    // A user has logged out! Here you need to:
+	    // Tear down the user's session by redirecting the user or making a call to your backend.
+		  console.log('signed out');
+	  }
+	});
+});
+//action=UpdateOrSaveUser
+function UpdateOrSaveUser(email, assertion) {
+	$.ajax({
+		url:		'ajax.php',
+		type:		'POST',
+		dataType:	'json',
+		data:		{action:'UpdateOrSaveUser', email:email, uuid:uuid},
+		success:	function(response) {
+			console.log('done');
+		}
+		
+	});
+}
+function updateUI() {
+	$('#account').html("<a href='#' id='signout'>Sign Out</a>");
+	setSignout();
 }

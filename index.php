@@ -1,4 +1,5 @@
 <?php
+session_start();
 ?><!DOCTYPE html>
 <html lang="en">
   <head>
@@ -51,11 +52,124 @@
                 <ul class="dropdown-menu">
                   <li class="nav-header">Account Related</li>
                   <li><a id='reset_account' href="#reset">Reset Account</a></li>
+                  <li><a id='reset_account' href="#settings">Settings</a></li>
                   <li class="divider"></li>
                   <li class="nav-header">Reporting</li>
                   <li><a href="#export">Export</a></li>
                 </ul>
               </li>
+              <li id="account"><a id='account_loading' style='display: none;'>
+              <style>
+#facebookG{
+}
+
+.facebook_blockG{
+background-color:#FFFFFF;
+border:1px solid #000000;
+float:left;
+height:20px;
+margin-left:5px;
+width:5px;
+-webkit-animation-name:bounceG;
+-webkit-animation-duration:1.3s;
+-webkit-animation-iteration-count:infinite;
+-webkit-animation-direction:linear;
+-webkit-transform:scale(0.91);
+-moz-animation-name:bounceG;
+-moz-animation-duration:1.3s;
+-moz-animation-iteration-count:infinite;
+-moz-animation-direction:linear;
+-moz-transform:scale(0.91);
+-o-animation-name:bounceG;
+-o-animation-duration:1.3s;
+-o-animation-iteration-count:infinite;
+-o-animation-direction:linear;
+-o-transform:scale(0.91);
+-ms-animation-name:bounceG;
+-ms-animation-duration:1.3s;
+-ms-animation-iteration-count:infinite;
+-ms-animation-direction:linear;
+-ms-transform:scale(0.91);
+opacity:0.1;
+}
+
+#blockG_1{
+-webkit-animation-delay:0.39s;
+-moz-animation-delay:0.39s;
+-o-animation-delay:0.39s;
+-ms-animation-delay:0.39s;
+}
+
+#blockG_2{
+-webkit-animation-delay:0.52s;
+-moz-animation-delay:0.52s;
+-o-animation-delay:0.52s;
+-ms-animation-delay:0.52s;
+}
+
+#blockG_3{
+-webkit-animation-delay:0.65s;
+-moz-animation-delay:0.65s;
+-o-animation-delay:0.65s;
+-ms-animation-delay:0.65s;
+}
+
+@-webkit-keyframes bounceG{
+0%{
+-webkit-transform:scale(1.2);
+opacity:1}
+
+100%{
+-webkit-transform:scale(0.7);
+opacity:0.1}
+
+}
+
+@-moz-keyframes bounceG{
+0%{
+-moz-transform:scale(1.2);
+opacity:1}
+
+100%{
+-moz-transform:scale(0.7);
+opacity:0.1}
+
+}
+
+@-o-keyframes bounceG{
+0%{
+-o-transform:scale(1.2);
+opacity:1}
+
+100%{
+-o-transform:scale(0.7);
+opacity:0.1}
+
+}
+
+@-ms-keyframes bounceG{
+0%{
+-ms-transform:scale(1.2);
+opacity:1}
+
+100%{
+-ms-transform:scale(0.7);
+opacity:0.1}
+
+}
+
+</style>
+<div id="facebookG">
+<div id="block_1" class="facebook_blockG">
+</div>
+<div id="blockG_2" class="facebook_blockG">
+</div>
+<div id="blockG_3" class="facebook_blockG">
+</div>
+</div>
+              
+              
+              </a><a href='#' id='signin'>Sign In</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -73,12 +187,12 @@
 			<table class="table">
               <thead>
                 <tr>
+                  <th>Client</th>
                   <th>#</th>
                   <th>Task Notes</th>
                   <th>Task Start</th>
                   <th>Task End</th>
                   <th>Duration</th>
-                  <th>Client</th>
                 </tr>
               </thead>
               <tbody>
@@ -201,6 +315,7 @@
     <script src="/js/jquery.colorbox-min.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/jtimer.js"></script>
+    <script src="https://login.persona.org/include.js"></script>
 
     <script type="text/javascript">
     
@@ -213,6 +328,9 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
+    <?php 
+echo 'var uuid="'.session_id().'"';    
+?>
   </script>    
   </body>
 </html>
